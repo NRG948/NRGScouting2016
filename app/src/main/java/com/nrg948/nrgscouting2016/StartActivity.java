@@ -1,5 +1,6 @@
 package com.nrg948.nrgscouting2016;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -24,6 +26,20 @@ public class StartActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+            }
+        });
+        Button client = (Button)findViewById(R.id.client_button);
+        Button host = (Button)findViewById(R.id.host_button);
+        client.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                myOnClick(0);
+            }
+        });
+        host.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                myOnClick(1);
             }
         });
     }
@@ -48,5 +64,11 @@ public class StartActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void myOnClick(int mode){
+        Intent i = new Intent(this, TopActivity.class);
+        i.putExtra("Mode", mode);
+        startActivity(i);
     }
 }

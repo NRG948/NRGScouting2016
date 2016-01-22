@@ -13,7 +13,38 @@
     tools:showIn="@layout/activity_start">
 
     <TextView
+        android:id="@+id/welcome_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="Welcome to NRG Scouting App!"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:textSize="25dp"
+        android:textStyle="bold" />
+    <ImageView
+        android:id="@+id/nrg_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/welcome_textView"
+        android:background="@drawable/nrg_icon"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nrg_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp">
+        <Button
+            android:id="@+id/client_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Client"/>
+        <Button
+            android:id="@+id/host_button"
+            android:layout_toRightOf="@id/client_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Host"
+            android:layout_marginLeft="50dp" />
+    </RelativeLayout>
 </RelativeLayout>
