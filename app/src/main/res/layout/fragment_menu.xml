@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,8 +6,35 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/device_mode"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
-</FrameLayout>
+        android:textSize="16dp"
+        android:text="@string/host_mode" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="Number of entires: 0"/>
+    <Button
+        android:id="@+id/new_entry_button"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/new_entry"/>
+    <Button
+        android:id="@+id/all_entries_button"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/new_entry_button"
+        android:layout_centerHorizontal="true"
+        android:text="@string/all_entries"/>
+    <Button
+        android:id="@+id/sync_buton"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/all_entries_button"
+        android:layout_centerHorizontal="true"
+        android:text="@string/sync"/>
+</RelativeLayout>
