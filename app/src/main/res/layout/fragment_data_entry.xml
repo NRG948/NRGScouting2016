@@ -20,7 +20,96 @@
             android:layout_height="wrap_content"
             android:hint="@string/team_number"
             style="@style/data_entry_view"
+            android:layout_marginTop="20dp"
             android:inputType="number"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="What is their main Method of Scoring"
+            android:layout_marginLeft="40dp"/>
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            style="@style/data_entry_view">
+            <RadioButton android:id="@+id/radio_damaging"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/damaging"
+                android:onClick="onRadioButtonClicked"/>
+            <RadioButton android:id="@+id/radio_shooting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/shooting"
+                android:onClick="onRadioButtonClicked"/>
+            <RadioButton android:id="@+id/radio_both"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/both"
+                android:onClick="onRadioButtonClicked"/>
+        </RadioGroup>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Can they Shoot High or Low"
+            android:layout_marginLeft="40dp"/>
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            style="@style/data_entry_view">
+            <RadioButton android:id="@+id/radio_high"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/high"
+                android:onClick="onRadioButtonClicked"/>
+            <RadioButton android:id="@+id/radio_low"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/low"
+                android:onClick="onRadioButtonClicked"/>
+            <RadioButton android:id="@+id/radio_high_and_low"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/both"
+                android:onClick="onRadioButtonClicked"/>
+            <RadioButton android:id="@+id/radio_neither"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/neither"
+                android:onClick="onRadioButtonClicked"/>
+        </RadioGroup>
+        <EditText
+            android:id="@+id/number_of_boulders"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/number_of_boulders"
+            android:inputType="number"
+            style="@style/data_entry_view"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/what_defenses"
+            style="@style/data_entry_view"/>
+        <Spinner
+            android:id="@+id/climb_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            style="@style/data_entry_view"/>
+        <EditText
+            android:id="@+id/exceptional_circumstances"
+            style = "@style/data_entry_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="2"
+            android:hint="Exceptional Circumstances"/>
+        <EditText
+            android:id="@+id/comments"
+            style = "@style/data_entry_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="2"
+            android:hint="Comments"/>
     </LinearLayout>
 
 </RelativeLayout>

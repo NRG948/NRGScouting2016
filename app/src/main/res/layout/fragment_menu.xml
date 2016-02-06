@@ -22,7 +22,7 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="@string/new_entry"/>
+        android:text="@string/new_entry" />
     <Button
         android:id="@+id/all_entries_button"
         android:layout_width="150dp"

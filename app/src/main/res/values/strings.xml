@@ -11,4 +11,21 @@
     <string name="host_mode">Device Mode: Host</string>
     <string name="team_number">Team Number</string>
     <string name="data_entry_title">New Entry</string>
+    <string name="damaging">Damaging</string>
+    <string name="shooting">Shooting</string>
+    <string name="both">Both</string>
+    <string name="high">High</string>
+    <string name="low">Low</string>
+    <string name="neither">Neither</string>
+    <string name="number_of_boulders"># of boulders made into the Stronghold?</string>
+    <string name="what_defenses">What Defenses can they go through?</string>
+    <string-array name="climb_array">
+        <item> Can They Climb?</item>
+        <item>5 (less than 5 seconds)</item>
+        <item>4 (less than 10 second)</item>
+        <item>3 (less than 15 seconds)</item>
+        <item>2 (less than 20 seconds)</item>
+        <item>1 (SUPER slow)</item>
+        <item>0 (Not at all)</item>
+    </string-array>
 </resources>

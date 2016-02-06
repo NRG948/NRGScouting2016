@@ -1,9 +1,10 @@
 package com.nrg948.nrgscouting2016;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
  */
 public class MenuFragment extends Fragment {
 
+    public Team newTeam;
     public MenuFragment() {
         // Required empty public constructor
     }
@@ -28,8 +30,19 @@ public class MenuFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_menu, container, false);
+        newTeam = new Team();
+        v.findViewById(R.id.new_entry_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DataEntryFragment newFragment = new DataEntryFragment();
+                TopActivity.replaceFragment(getFragment(),newFragment);
+            }
+        });
         return v;
 
+    }
+    private Fragment getFragment(){
+        return this;
     }
 
 }
