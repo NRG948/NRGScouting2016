@@ -8,6 +8,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 
 /**
@@ -20,17 +23,16 @@ import android.view.ViewGroup;
  */
 public class MenuFragment extends Fragment {
 
-    public Team newTeam;
     public MenuFragment() {
         // Required empty public constructor
     }
-
+    public static ArrayList<Team> teams = new ArrayList<Team>();
+    public static TextView numberOfEntries;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_menu, container, false);
-        newTeam = new Team();
         v.findViewById(R.id.new_entry_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,6 +40,8 @@ public class MenuFragment extends Fragment {
                 TopActivity.replaceFragment(getFragment(),newFragment);
             }
         });
+        numberOfEntries= ((TextView)v.findViewById(R.id.number_of_entires));
+        numberOfEntries.setText("Number of Entires " + teams.size());
         return v;
 
     }
