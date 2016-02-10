@@ -16,14 +16,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="Submit"
-        android:enabled="true"/>
+        android:text="Submit" />
     <ScrollView
-
+        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
-            android:id="@+id/content"
+            android:id = "@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -105,10 +104,59 @@
                 android:text="@string/what_defenses"
                 style="@style/data_entry_view"/>
             <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/nrg_icon"
-                android:text="Andrew"/>
+                android:id = "@+id/cheval_de_frise"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:background="@drawable/cheval_de_frise"
+                android:text="Cheval de Frise"/>
+            <CheckBox
+                android:id = "@+id/drawbridge"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:background="@drawable/drawbridge"
+                android:text="Drawbridge"/>
+            <CheckBox
+                android:id = "@+id/low_bar"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:background="@drawable/low_bar"
+                android:text="Low Bar"/>
+            <CheckBox
+                android:id = "@+id/moat"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:background="@drawable/moat"
+                android:text="Moat"/>
+            <CheckBox
+                android:id = "@+id/portcullis"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:background="@drawable/portcullis"
+                android:text="Portcullis"/>
+            <CheckBox
+                android:id = "@+id/ramparts"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:background="@drawable/ramparts"
+                android:text="Ramparts"/>
+            <CheckBox
+                android:id = "@+id/rough_terrain"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:background="@drawable/rough_terrain"
+                android:text="Rough Terrain"/>
+            <CheckBox
+                android:id = "@+id/sally_port"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:background="@drawable/sally_port"
+                android:text="Sally Port"/>
+            <CheckBox
+                android:id = "@+id/stone_wall"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:background="@drawable/stone_wall"
+                android:text="Stone Wall"/>
             <Spinner
                 android:id="@+id/climb_spinner"
                 android:layout_width="fill_parent"

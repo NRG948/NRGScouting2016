@@ -1,9 +1,12 @@
 package com.nrg948.nrgscouting2016;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,6 +15,8 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -32,12 +37,16 @@ import java.util.Comparator;
 public class DataEntryFragment extends Fragment implements AdapterView.OnItemSelectedListener{
 
     public static Team team;
+    public CheckBox[] defenses;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_data_entry, container, false);
         team = new Team();
+        defenses = new CheckBox[] {(CheckBox)v.findViewById(R.id.cheval_de_frise), (CheckBox)v.findViewById(R.id.drawbridge), (CheckBox)v.findViewById(R.id.low_bar),
+                (CheckBox)v.findViewById(R.id.moat), (CheckBox)v.findViewById(R.id.portcullis), (CheckBox)v.findViewById(R.id.ramparts),
+                (CheckBox)v.findViewById(R.id.rough_terrain), (CheckBox)v.findViewById(R.id.sally_port), (CheckBox)v.findViewById(R.id.stone_wall)};
         Spinner spinner = (Spinner) v.findViewById(R.id.climb_spinner);
         spinner.setOnItemSelectedListener(this);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -57,19 +66,35 @@ public class DataEntryFragment extends Fragment implements AdapterView.OnItemSel
                 }
             }
         });
+
         final EditText teamNumberText = (EditText)v.findViewById(R.id.team_number);
         final EditText numberOfBoulders = (EditText)v.findViewById(R.id.number_of_boulders);
         final EditText exceptionalCircumstances = (EditText)v.findViewById(R.id.exceptional_circumstances);
         final EditText comments = (EditText)v.findViewById(R.id.comments);
-        v.findViewById(R.id.submit_button).setOnClickListener(new View.OnClickListener() {
+        Button submitButton = (Button)v.findViewById(R.id.submit_button);
+        submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                team.teamNumber = Integer.parseInt(teamNumberText.getText().toString());
-                team.numberOfBoulders = Integer.parseInt(numberOfBoulders.getText().toString());
+                Log.d("DataEntryFragment", "hi");
+                try {
+                    team.teamNumber = Integer.parseInt(teamNumberText.getText().toString());
+                    team.numberOfBoulders = Integer.parseInt(numberOfBoulders.getText().toString());
+                }catch (Exception e){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("You have not completed the required information").setTitle("Alert");
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+                    builder.create();
+                    team = new Team();
+                    return;
+                }
                 team.exceptionalCircumstances = exceptionalCircumstances.getText().toString();
                 team.comments = comments.getText().toString();
-                for(Team team1 : MenuFragment.teams){
-                    if(team1.teamNumber == team.teamNumber){
+                for (Team team1 : MenuFragment.teams) {
+                    if (team1.teamNumber == team.teamNumber) {
                         MenuFragment.teams.remove(team1);
                     }
                     MenuFragment.teams.add(team);
@@ -81,7 +106,11 @@ public class DataEntryFragment extends Fragment implements AdapterView.OnItemSel
                     }
                 });
                 MenuFragment.numberOfEntries.setText("Number of Entires " + MenuFragment.teams.size());
-                getActivity().getSupportFragmentManager().popBackStack();
+                for (int i = 0; i < 9; i++) {
+                    team.defenses[i] = defenses[i].isChecked();
+                }
+                getActivity().getSupportFragmentManager().popBackStack(getFragment().getClass().getSimpleName(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
             }
         });
         return v;
@@ -98,5 +127,9 @@ public class DataEntryFragment extends Fragment implements AdapterView.OnItemSel
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    private DataEntryFragment getFragment(){
+        return this;
     }
 }

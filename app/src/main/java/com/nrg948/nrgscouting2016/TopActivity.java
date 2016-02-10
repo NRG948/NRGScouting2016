@@ -29,7 +29,7 @@ public class TopActivity extends FragmentActivity {
 
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(parentViewId, newFragment);
-        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.addToBackStack(newFragment.getClass().getSimpleName());
         fragmentTransaction.commit();
 
     }

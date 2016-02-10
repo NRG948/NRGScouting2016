@@ -51,4 +51,5 @@ public class Team {
     public SpeedOfClimb speedOfClimb;
     public String comments;
     public String exceptionalCircumstances;
+    public Boolean[] defenses = new Boolean[9];
 }
