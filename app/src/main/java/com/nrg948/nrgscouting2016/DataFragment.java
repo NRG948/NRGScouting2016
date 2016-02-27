@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -30,7 +31,6 @@ public class DataFragment extends Fragment {
 
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    private ArrayList<Team> teams;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -43,26 +43,24 @@ public class DataFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_teamitem_list, container, false);
         ListView list = (ListView)view.findViewById(R.id.data_list);
-        teams = MenuFragment.teams;
-        Team[] t =new Team[teams.size()];
-        MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(getContext(), teams.toArray(t));
+        MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(getContext(), MenuFragment.teams);
         list.setAdapter(adapter);
         return view;
     }
     private class MySimpleArrayAdapter extends ArrayAdapter<Team>{
         Context context;
-        Team[] values;
-        public MySimpleArrayAdapter(Context context, Team[] values) {
+        ArrayList<Team> values;
+        public MySimpleArrayAdapter(Context context, ArrayList<Team> values) {
             super(context, -1, values);
             this.context = context;
             this.values = values;
         }
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View rowView = inflater.inflate(R.layout.fragment_teamitem, parent, false);
-            final Team team = values[position];
+            final Team team = values.get(position);
             ((TextView)rowView.findViewById(R.id.team_number)).setText(""+team.teamNumber);
             ((TextView)rowView.findViewById(R.id.number_of_boulders)).setText(""+team.numberOfBoulders);
             ((TextView)rowView.findViewById(R.id.method_of_scoring)).setText(team.methodOfScoring.getMethod());
@@ -87,7 +85,18 @@ public class DataFragment extends Fragment {
                     TopActivity.replaceFragment(getFragment(), newFragment);
                 }
             });
+            (rowView.findViewById(R.id.delete_entry)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MenuFragment.teams.remove(position);
+                    getAdapter().notifyDataSetChanged();
+                }
+            });
             return rowView;
+        }
+
+        private MySimpleArrayAdapter getAdapter(){
+            return this;
         }
     }
     Fragment getFragment(){

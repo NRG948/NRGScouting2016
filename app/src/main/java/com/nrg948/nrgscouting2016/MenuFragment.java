@@ -9,8 +9,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 
@@ -35,6 +41,7 @@ public class MenuFragment extends Fragment {
         // Inflate the layout for this fragment
         Log.d("MenuFragment", "Entering: onCreateView() ");
         View v = inflater.inflate(R.layout.fragment_menu, container, false);
+        ((TextView)v.findViewById(R.id.device_mode)).setText((TopActivity.mode == 1)? "Host" : "Client");
         v.findViewById(R.id.new_entry_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,8 +56,10 @@ public class MenuFragment extends Fragment {
                 TopActivity.replaceFragment(getFragment(), newFragment);
             }
         });
+
         numberOfEntries= ((TextView)v.findViewById(R.id.number_of_entires));
         numberOfEntries.setText("Number of Entires " + teams.size());
+        saveData();
         return v;
 
     }
@@ -58,4 +67,18 @@ public class MenuFragment extends Fragment {
         return this;
     }
 
+    public void saveData(){
+        try {
+            String serialized = "";
+            for(Team t : teams){
+                serialized += t.serialize();
+            }
+            FileOutputStream fileout = getActivity().openFileOutput("mytextfile.txt", getActivity().MODE_PRIVATE);
+            OutputStreamWriter outputWriter = new OutputStreamWriter(fileout);
+            outputWriter.write(serialized);
+            outputWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

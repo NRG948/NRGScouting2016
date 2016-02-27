@@ -10,15 +10,105 @@
         android:layout_width="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
             android:text="Team #"/>
+        <View style="@style/Divider"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:text="Number Of Boulders"/>
+            android:layout_margin="@dimen/text_margin"
+            android:text="# Of Boulders"/>
+        <View style="@style/Divider"/>
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="Method of Scoring"/>
+        <View style="@style/Divider"/>
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="Method Of Shooting"/>
+        <View style="@style/Divider"/>
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="Speed of Climb"/>
+        <View style="@style/Divider"/>
+        <TextView
+            android:text="Cheval De Frise"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin" />
+        <View style="@style/Divider"/>
+        <TextView
+            android:text="Drawbridge"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin" />
+        <View style="@style/Divider"/>
+        <TextView
+            android:text="Low Bar"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin" />
+        <View style="@style/Divider"/>
+        <TextView
+            android:text="Moat"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin" />
+        <View style="@style/Divider"/>
+        <TextView
+            android:text="Portcullis"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin" />
+        <View style="@style/Divider"/>
+        <TextView
+            android:text="Ramparts"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin" />
+        <View style="@style/Divider"/>
+        <TextView
+            android:text="Rough Terrain"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin" />
+        <View style="@style/Divider"/>
+        <TextView
+            android:text="Sally Port"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin" />
+        <View style="@style/Divider"/>
+        <TextView
+            android:text="Stone Wall"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin" />
+        <View style="@style/Divider"/>
+        <TextView
+            android:text="Comments"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin" />
+        <View style="@style/Divider"/>
+        <TextView
+            android:text="Exceptional Circumstances"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin" />
     </LinearLayout>
-
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="#c0c0c0"/>
     <ListView
         android:id = "@+id/data_list"
         android:layout_height="wrap_content"
@@ -26,4 +116,4 @@
         android:layout_weight="1" />
 
     </LinearLayout>
-    </HorizontalScrollView>
+</HorizontalScrollView>

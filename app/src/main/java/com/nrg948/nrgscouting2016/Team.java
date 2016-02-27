@@ -1,5 +1,8 @@
 package com.nrg948.nrgscouting2016;
 
+import java.lang.reflect.Method;
+import java.util.Collections;
+
 /**
  * Created by Sean on 2/6/2016.
  */
@@ -52,4 +55,43 @@ public class Team {
     public String comments;
     public String exceptionalCircumstances;
     public Boolean[] defenses = new Boolean[9];
+
+    public String serialize(){
+        String s = "/";
+        s += teamNumber + "/";
+        s += numberOfBoulders + "/";
+        s += methodOfScoring.name() + "/";
+        s += methodOfShooting.name() + "/";
+        s += speedOfClimb.name() + "/";
+        for(int i = 0; i < 9; i ++){
+            s += (defenses[i]? 1: 0) + "/";
+        }
+        if(comments.length() != 0) {
+            s += comments + "/";
+        }else {
+            s += " /";
+        }
+        if(exceptionalCircumstances.length() != 0) {
+            s += exceptionalCircumstances + "/NEWTEAM";
+        }else {
+            s += " /NEWTEAM";
+        }
+        return s;
+    }
+
+    public static Team deSerialize(String s){
+        Team t = new Team();
+        String[] data = s.split("/");
+        t.teamNumber = Integer.parseInt(data[1]);
+        t.numberOfBoulders = Integer.parseInt(data[2]);
+        t.methodOfScoring = MethodOfScoring.valueOf(data[3]);
+        t.methodOfShooting = MethodOfShooting.valueOf(data[4]);
+        t.speedOfClimb = SpeedOfClimb.valueOf(data[5]);
+        for(int i = 0; i < 9; i ++){
+            t.defenses[i] = (data[i+6].equals("1"))? true : false;
+        }
+        t.comments = data[15];
+        t.exceptionalCircumstances = data[16];
+        return t;
+    }
 }

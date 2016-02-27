@@ -1,21 +1,37 @@
 package com.nrg948.nrgscouting2016;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 public class StartActivity extends AppCompatActivity {
-
+    private int mode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(hasMode()){
+            myOnClick(mode);
+            return;
+        }
         setContentView(R.layout.activity_start);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -42,6 +58,7 @@ public class StartActivity extends AppCompatActivity {
                 myOnClick(1);
             }
         });
+
     }
 
     @Override
@@ -69,6 +86,36 @@ public class StartActivity extends AppCompatActivity {
     private void myOnClick(int mode){
         Intent i = new Intent(this, TopActivity.class);
         i.putExtra("Mode", mode);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
+    }
+
+    private Activity getActivity(){
+        return this;
+    }
+
+    private boolean hasMode(){
+        String s = "";
+        try{
+            FileInputStream fileIn=openFileInput("devicemode.txt");
+            InputStreamReader InputRead= new InputStreamReader(fileIn);
+            char[] inputBuffer= new char[100000];
+            int charRead;
+            while ((charRead=InputRead.read(inputBuffer))>0) {
+                // char to string conversion
+                String readstring=String.copyValueOf(inputBuffer,0,charRead);
+                s +=readstring;
+            }
+            if(s == "1"){
+                mode = 1;
+            }else{
+                mode = 0;
+            }
+            InputRead.close();
+        }catch(IOException e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }
