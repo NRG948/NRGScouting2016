@@ -7,7 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -16,12 +17,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -36,19 +40,21 @@ import java.util.UUID;
  */
 public class BlueToothFragment extends Fragment {
 
-    ArrayAdapter<String> adapter;
+    MySimpleArrayAdapter adapter;
     private static final UUID uuid = UUID.fromString("0e0e54bc-e290-11e5-9730-9a79f06e9478");
     private ArrayAdapter<DeviceItem> mAdapter;
+    ConnectThread connectThread;
+    AcceptThread acceptThread;
     private final BroadcastReceiver bReciever = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            Log.d("BlueToothFragment", "Got a device!");
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 // Create a new device item
-                DeviceItem newDevice = new DeviceItem(device.getName(), device.getAddress(), false  );
+                DeviceItem newDevice = new DeviceItem(device.getName(), device.getAddress(), false, device);
+                Log.d("BlueToothFragment", "Got a device! " + device.getName());
                 // Add it to our adapter
-                adapter.add(device.getName());
+                adapter.add(newDevice);
                 adapter.notifyDataSetChanged();
             }
         }
@@ -83,42 +89,133 @@ public class BlueToothFragment extends Fragment {
         }
         Set<BluetoothDevice> pairedDevices = BTAdapter.getBondedDevices();
         ListView list = (ListView)v.findViewById(R.id.connected_devices);
-        ArrayList<String> d = new ArrayList<String>(pairedDevices.size());
+        ArrayList<DeviceItem> d = new ArrayList<DeviceItem>(pairedDevices.size());
         for(BluetoothDevice b : pairedDevices){
-            d.add(b.getName());
+            d.add(new DeviceItem(b.getName(), b.getAddress(), false, b));
         }
-        adapter = new ArrayAdapter<String>(getActivity(), R.layout.basic_list_item, R.id.data, d);
-        //mAdapter = new DeviceListAdapter(getActivity(), deviceItemList, bTAdapter);
+        adapter = new MySimpleArrayAdapter(getActivity(), R.layout.bluetooth_device_list_item, d);
+
         list.setAdapter(adapter);
+        acceptThread = new AcceptThread(BTAdapter, uuid, getActivity());
         ToggleButton scan = (ToggleButton) v.findViewById(R.id.scan);
         scan.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
                 if (isChecked) {
+                    Intent discoverableIntent = new
+                            Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+                    discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 45);
+                    startActivity(discoverableIntent);
                     adapter.clear();
                     getActivity().registerReceiver(bReciever, filter);
                     BTAdapter.startDiscovery();
+                    if (TopActivity.mode == 1) {
+                        acceptThread.run();
+                    }
                 } else {
                     getActivity().unregisterReceiver(bReciever);
                     BTAdapter.cancelDiscovery();
+                    if (TopActivity.mode == 1) {
+                        acceptThread.cancel();
+                    }
                 }
             }
         });
-        Intent discoverableIntent = new
-                Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-        startActivity(discoverableIntent);
+        WifiManager manager = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
+        WifiInfo info = manager.getConnectionInfo();
+        String address = info.getMacAddress();
+        ((TextView)v.findViewById(R.id.mac_address)).setText("My MAC Address is " + address);
+        v.findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TopActivity.mode == 0) {
+                    try {
+                        connectThread.sendData();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+                        acceptThread.sendData();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        v.findViewById(R.id.receive).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(TopActivity.mode == 1){
+                    try {
+                        acceptThread.receiveData();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    try {
+                        connectThread.receiveData();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        v.findViewById(R.id.disconnect).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) throws NullPointerException{
+                if(TopActivity.mode == 1){
+                    acceptThread.cancel();
+                }else{
+                    connectThread.cancel();
+                }
+            }
+        });
         return v;
+    }
+
+    private class MySimpleArrayAdapter extends ArrayAdapter<DeviceItem>{
+        Context context;
+        List<DeviceItem> objects;
+        public MySimpleArrayAdapter(Context context, int resource, List<DeviceItem> objects) {
+            super(context, resource, objects);
+            this.context = context;
+            this.objects = objects;
+        }
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View v = inflater.inflate(R.layout.bluetooth_device_list_item, parent, false);
+            ((TextView)v.findViewById(R.id.name)).setText(objects.get(position).name);
+            ((TextView)v.findViewById(R.id.mac_address)).setText(objects.get(position).address);
+            if(TopActivity.mode == 1){
+                ((Button)v.findViewById(R.id.connect)).setVisibility(View.GONE);
+            }else {
+                v.findViewById(R.id.connect).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        connectThread = new ConnectThread(objects.get(position).device, uuid, getContext());
+                        connectThread.connect();
+                    }
+                });
+            }
+            return v;
+        }
     }
 
     private class DeviceItem{
         String name;
         String address;
         Boolean connected;
-        public DeviceItem(String name, String address, Boolean connected){
+        BluetoothDevice device;
+        public DeviceItem(String name, String address, Boolean connected, BluetoothDevice device){
             this.name = name;
             this.address = address;
             this.connected = connected;
+            this.device = device;
         }
     }
+
+
 }

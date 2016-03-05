@@ -10,6 +10,7 @@
     <string name="client_mode">Device Mode: Client</string>
     <string name="host_mode">Device Mode: Host</string>
     <string name="team_number">Team Number</string>
+    <string name="match_number">Match Number</string>
     <string name="data_entry_title">New Entry</string>
     <string name="damaging">Damaging</string>
     <string name="shooting">Shooting</string>

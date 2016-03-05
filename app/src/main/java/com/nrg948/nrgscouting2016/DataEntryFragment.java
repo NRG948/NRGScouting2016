@@ -76,6 +76,7 @@ public class DataEntryFragment extends Fragment implements AdapterView.OnItemSel
         });
 
         final EditText teamNumberText = (EditText)v.findViewById(R.id.team_number);
+        final EditText matchNumberText = (EditText)v.findViewById(R.id.match_number);
         final EditText numberOfBoulders = (EditText)v.findViewById(R.id.number_of_boulders);
         final EditText exceptionalCircumstances = (EditText)v.findViewById(R.id.exceptional_circumstances);
         final EditText comments = (EditText)v.findViewById(R.id.comments);
@@ -124,6 +125,7 @@ public class DataEntryFragment extends Fragment implements AdapterView.OnItemSel
                 try {
                     team.teamNumber = Integer.parseInt(teamNumberText.getText().toString());
                     team.numberOfBoulders = Integer.parseInt(numberOfBoulders.getText().toString());
+                    team.matchNumber = Integer.parseInt(matchNumberText.getText().toString());
                     System.out.print(team.speedOfClimb.name());
                 }catch (Exception e){
                     Snackbar.make(v, "Not all the information has been filled", Snackbar.LENGTH_LONG)
@@ -135,7 +137,7 @@ public class DataEntryFragment extends Fragment implements AdapterView.OnItemSel
                 team.comments = comments.getText().toString();
                 for(int i = 0; i < MenuFragment.teams.size(); i ++) {
                     Team team1 = MenuFragment.teams.get(i);
-                    if (team1.teamNumber == team.teamNumber) {
+                    if (team1.teamNumber == team.teamNumber && team1.matchNumber == team.matchNumber) {
                         MenuFragment.teams.remove(team1);
                         return;
                     }

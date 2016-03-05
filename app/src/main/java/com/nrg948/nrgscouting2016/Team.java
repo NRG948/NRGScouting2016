@@ -48,6 +48,7 @@ public class Team {
         }
     }
     public int teamNumber;
+    public int matchNumber;
     public int numberOfBoulders;
     public MethodOfScoring methodOfScoring;
     public MethodOfShooting methodOfShooting;
@@ -59,6 +60,7 @@ public class Team {
     public String serialize(){
         String s = "/";
         s += teamNumber + "/";
+        s += matchNumber +"/";
         s += numberOfBoulders + "/";
         s += methodOfScoring.name() + "/";
         s += methodOfShooting.name() + "/";
@@ -83,15 +85,16 @@ public class Team {
         Team t = new Team();
         String[] data = s.split("/");
         t.teamNumber = Integer.parseInt(data[1]);
-        t.numberOfBoulders = Integer.parseInt(data[2]);
-        t.methodOfScoring = MethodOfScoring.valueOf(data[3]);
-        t.methodOfShooting = MethodOfShooting.valueOf(data[4]);
-        t.speedOfClimb = SpeedOfClimb.valueOf(data[5]);
+        t.matchNumber = Integer.parseInt(data[2]);
+        t.numberOfBoulders = Integer.parseInt(data[3]);
+        t.methodOfScoring = MethodOfScoring.valueOf(data[4]);
+        t.methodOfShooting = MethodOfShooting.valueOf(data[5]);
+        t.speedOfClimb = SpeedOfClimb.valueOf(data[6]);
         for(int i = 0; i < 9; i ++){
-            t.defenses[i] = (data[i+6].equals("1"))? true : false;
+            t.defenses[i] = (data[i+7].equals("1"))? true : false;
         }
-        t.comments = data[15];
-        t.exceptionalCircumstances = data[16];
+        t.comments = data[16];
+        t.exceptionalCircumstances = data[17];
         return t;
     }
 }

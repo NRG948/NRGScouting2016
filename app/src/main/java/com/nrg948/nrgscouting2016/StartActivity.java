@@ -105,8 +105,9 @@ public class StartActivity extends AppCompatActivity {
                 // char to string conversion
                 String readstring=String.copyValueOf(inputBuffer,0,charRead);
                 s +=readstring;
+               // Log.d("StartActivity", "HI"+s+"OH");
             }
-            if(s == "1"){
+            if(s.equals("1")){
                 mode = 1;
             }else{
                 mode = 0;

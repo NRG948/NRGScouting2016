@@ -62,6 +62,7 @@ public class DataFragment extends Fragment {
             View rowView = inflater.inflate(R.layout.fragment_teamitem, parent, false);
             final Team team = values.get(position);
             ((TextView)rowView.findViewById(R.id.team_number)).setText(""+team.teamNumber);
+            ((TextView)rowView.findViewById(R.id.match_number)).setText(""+team.matchNumber);
             ((TextView)rowView.findViewById(R.id.number_of_boulders)).setText(""+team.numberOfBoulders);
             ((TextView)rowView.findViewById(R.id.method_of_scoring)).setText(team.methodOfScoring.getMethod());
             ((TextView)rowView.findViewById(R.id.method_of_shooting)).setText(team.methodOfShooting.getMethod());

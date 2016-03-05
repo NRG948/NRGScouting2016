@@ -74,16 +74,20 @@ public class MenuFragment extends Fragment {
 
     public void saveData(){
         try {
-            String serialized = "";
-            for(Team t : teams){
-                serialized += t.serialize();
-            }
             FileOutputStream fileout = getActivity().openFileOutput("mytextfile.txt", getActivity().MODE_PRIVATE);
             OutputStreamWriter outputWriter = new OutputStreamWriter(fileout);
-            outputWriter.write(serialized);
+            outputWriter.write(serializeData());
             outputWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static String serializeData(){
+        String serialized = "";
+        for(Team t : teams){
+            serialized += t.serialize();
+        }
+        return serialized;
     }
 }
