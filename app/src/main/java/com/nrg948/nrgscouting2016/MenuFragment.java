@@ -39,14 +39,13 @@ public class MenuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.d("MenuFragment", "Entering: onCreateView() ");
         View v = inflater.inflate(R.layout.fragment_menu, container, false);
         ((TextView)v.findViewById(R.id.device_mode)).setText((TopActivity.mode == 1)? "Host" : "Client");
         v.findViewById(R.id.new_entry_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DataEntryFragment newFragment = new DataEntryFragment();
-                TopActivity.replaceFragment(getFragment(),newFragment);
+                TopActivity.replaceFragment(getFragment(), newFragment);
             }
         });
         v.findViewById(R.id.all_entries_button).setOnClickListener(new View.OnClickListener() {
@@ -56,7 +55,13 @@ public class MenuFragment extends Fragment {
                 TopActivity.replaceFragment(getFragment(), newFragment);
             }
         });
-
+        v.findViewById(R.id.sync_buton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BlueToothFragment newFragment = new BlueToothFragment();
+                TopActivity.replaceFragment(getFragment(), newFragment);
+            }
+        });
         numberOfEntries= ((TextView)v.findViewById(R.id.number_of_entires));
         numberOfEntries.setText("Number of Entires " + teams.size());
         saveData();

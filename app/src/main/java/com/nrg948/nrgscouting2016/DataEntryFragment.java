@@ -121,15 +121,14 @@ public class DataEntryFragment extends Fragment implements AdapterView.OnItemSel
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("DataEntryFragment", "hi");
                 try {
                     team.teamNumber = Integer.parseInt(teamNumberText.getText().toString());
                     team.numberOfBoulders = Integer.parseInt(numberOfBoulders.getText().toString());
-                    if (team.speedOfClimb.equals(Team.SpeedOfClimb.AVERAGE)){}
+                    System.out.print(team.speedOfClimb.name());
                 }catch (Exception e){
                     Snackbar.make(v, "Not all the information has been filled", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
-                    team = new Team();
+                    e.printStackTrace();
                     return;
                 }
                 team.exceptionalCircumstances = exceptionalCircumstances.getText().toString();
@@ -164,7 +163,6 @@ public class DataEntryFragment extends Fragment implements AdapterView.OnItemSel
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if(position == 0) return;
         team.speedOfClimb = Team.SpeedOfClimb.values()[position-1];
-        Log.d("DataEntryFragment", ""+team.speedOfClimb.getSpeed());
     }
 
     @Override

@@ -21,7 +21,6 @@ public class TopActivity extends FragmentActivity {
     public static int mode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("TopActivity", "Entring onCreate()");
         super.onCreate(savedInstanceState);
         mode = getIntent().getIntExtra("Mode",0);
         saveDeviceMode(mode);
